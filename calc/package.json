@@ -1,5 +1,5 @@
 {
-  "name": "@smogon/calc",
+  "name": "@asanrom/poke-calc",
   "version": "0.7.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -29,11 +29,9 @@
     "lint": "eslint --cache src --ext ts",
     "fix": "eslint --fix src --ext ts",
     "compile": "tsc -p .",
-    "bundle": "node bundle",
-    "build": "npm run compile && npm run bundle",
+    "build": "npm run compile",
     "test": "jest",
     "coverage": "jest --coverage",
-    "prepare": "npm run build",
     "pretest": "npm run build",
     "posttest": "npm run lint"
   }
