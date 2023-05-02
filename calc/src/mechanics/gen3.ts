@@ -14,6 +14,7 @@ import {
   checkForecast,
   checkIntimidate,
   handleFixedDamageMoves,
+  applyInverseBattleEffectiveness,
 } from './util';
 
 export function calculateADV(
@@ -94,16 +95,20 @@ export function calculateADV(
     }
   }
 
-  const type1Effectiveness = getMoveEffectiveness(
+  const type1Effectiveness = applyInverseBattleEffectiveness(getMoveEffectiveness(
     gen,
     move,
     firstDefenderType,
     field.defenderSide.isForesight
-  );
+  ), !!field.isInverse);
   const type2Effectiveness = secondDefenderType
-    ? getMoveEffectiveness(gen, move, secondDefenderType, field.defenderSide.isForesight)
+    ? applyInverseBattleEffectiveness(getMoveEffectiveness(gen, move, secondDefenderType, field.defenderSide.isForesight), !!field.isInverse)
     : 1;
-  const typeEffectiveness = type1Effectiveness * type2Effectiveness;
+  let typeEffectiveness = type1Effectiveness * type2Effectiveness;
+
+  if (field.isInverse) {
+    typeEffectiveness = typeEffectiveness ? (1 / typeEffectiveness) : 2;
+  }
 
   if (typeEffectiveness === 0) {
     return result;

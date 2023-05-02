@@ -3,6 +3,7 @@ import {GameType, Weather, Terrain} from './data/interface';
 
 export class Field implements State.Field {
   gameType: GameType;
+  isInverse?: boolean;
   weather?: Weather;
   terrain?: Terrain;
   isMagicRoom: boolean;
@@ -20,6 +21,7 @@ export class Field implements State.Field {
 
   constructor(field: Partial<State.Field> = {}) {
     this.gameType = field.gameType || 'Singles';
+    this.isInverse = !!field.isInverse;
     this.terrain = field.terrain;
     this.weather = field.weather;
     this.isMagicRoom = !!field.isMagicRoom;

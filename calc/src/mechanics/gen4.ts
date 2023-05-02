@@ -17,6 +17,7 @@ import {
   checkDownload,
   countBoosts,
   handleFixedDamageMoves,
+  applyInverseBattleEffectiveness,
 } from './util';
 
 export function calculateDPP(
@@ -137,9 +138,9 @@ export function calculateDPP(
   }
 
   let type1Effectiveness =
-    getMoveEffectiveness(gen, move, firstDefenderType, isGhostRevealed, field.isGravity);
+  applyInverseBattleEffectiveness(getMoveEffectiveness(gen, move, firstDefenderType, isGhostRevealed, field.isGravity), !!field.isInverse);
   let type2Effectiveness = secondDefenderType
-    ? getMoveEffectiveness(gen, move, secondDefenderType, isGhostRevealed, field.isGravity)
+    ? applyInverseBattleEffectiveness(getMoveEffectiveness(gen, move, secondDefenderType, isGhostRevealed, field.isGravity), !!field.isInverse)
     : 1;
 
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;

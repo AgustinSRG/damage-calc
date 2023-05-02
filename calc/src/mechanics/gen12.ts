@@ -5,7 +5,7 @@ import {Field} from '../field';
 import {Move} from '../move';
 import {Pokemon} from '../pokemon';
 import {Result} from '../result';
-import {computeFinalStats, getMoveEffectiveness, handleFixedDamageMoves} from './util';
+import {applyInverseBattleEffectiveness, computeFinalStats, getMoveEffectiveness, handleFixedDamageMoves} from './util';
 
 export function calculateRBYGSC(
   gen: Generation,
@@ -76,9 +76,9 @@ export function calculateRBYGSC(
 
 
   const type1Effectiveness =
-    getMoveEffectiveness(gen, move, firstDefenderType, field.defenderSide.isForesight);
+  applyInverseBattleEffectiveness(getMoveEffectiveness(gen, move, firstDefenderType, field.defenderSide.isForesight), !!field.isInverse);
   const type2Effectiveness = secondDefenderType
-    ? getMoveEffectiveness(gen, move, secondDefenderType, field.defenderSide.isForesight)
+    ? applyInverseBattleEffectiveness(getMoveEffectiveness(gen, move, secondDefenderType, field.defenderSide.isForesight), !!field.isInverse)
     : 1;
   const typeEffectiveness = type1Effectiveness * type2Effectiveness;
 

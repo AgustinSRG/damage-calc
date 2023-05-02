@@ -41,6 +41,7 @@ import {
   isGrounded,
   OF16, OF32,
   pokeRound,
+  applyInverseBattleEffectiveness,
 } from './util';
 
 export function calculateSMSSSV(
@@ -250,35 +251,35 @@ export function calculateSMSSSV(
     attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
   const isRingTarget =
     defender.hasItem('Ring Target') && !defender.hasAbility('Klutz');
-  const type1Effectiveness = getMoveEffectiveness(
+  const type1Effectiveness = applyInverseBattleEffectiveness(getMoveEffectiveness(
     gen,
     move,
     defender.types[0],
     isGhostRevealed,
     field.isGravity,
     isRingTarget
-  );
+  ), !!field.isInverse);
   const type2Effectiveness = defender.types[1]
-    ? getMoveEffectiveness(
+    ? applyInverseBattleEffectiveness(getMoveEffectiveness(
       gen,
       move,
       defender.types[1],
       isGhostRevealed,
       field.isGravity,
       isRingTarget
-    )
+    ), !!field.isInverse)
     : 1;
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
 
   if (defender.teraType) {
-    typeEffectiveness = getMoveEffectiveness(
+    typeEffectiveness = applyInverseBattleEffectiveness(getMoveEffectiveness(
       gen,
       move,
       defender.teraType,
       isGhostRevealed,
       field.isGravity,
       isRingTarget
-    );
+    ), !!field.isInverse);
   }
 
   if (typeEffectiveness === 0 && move.hasType('Ground') &&
@@ -904,22 +905,22 @@ export function calculateBPModsSMSSSV(
     const isRingTarget =
       defender.hasItem('Ring Target') && !defender.hasAbility('Klutz');
     const types = defender.teraType ? [defender.teraType] : defender.types;
-    const type1Effectiveness = getMoveEffectiveness(
+    const type1Effectiveness = applyInverseBattleEffectiveness(getMoveEffectiveness(
       gen,
       move,
       types[0],
       isGhostRevealed,
       field.isGravity,
       isRingTarget
-    );
-    const type2Effectiveness = types[1] ? getMoveEffectiveness(
+    ), !!field.isInverse);
+    const type2Effectiveness = types[1] ? applyInverseBattleEffectiveness(getMoveEffectiveness(
       gen,
       move,
       types[1],
       isGhostRevealed,
       field.isGravity,
       isRingTarget
-    ) : 1;
+    ), !!field.isInverse) : 1;
     if (type1Effectiveness * type2Effectiveness >= 2) {
       bpMods.push(5461);
       desc.moveBP = basePower * (5461 / 4096);

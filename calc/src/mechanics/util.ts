@@ -138,6 +138,18 @@ export function getFinalSpeed(gen: Generation, pokemon: Pokemon, field: Field, s
   return Math.max(0, speed);
 }
 
+export function applyInverseBattleEffectiveness(effectiveness: number, isInverse: boolean): number {
+  if (!isInverse) {
+    return effectiveness;
+  }
+
+  if (effectiveness) {
+    return 2;
+  }
+
+  return 1 / effectiveness;
+}
+
 export function getMoveEffectiveness(
   gen: Generation,
   move: Move,

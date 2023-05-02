@@ -13,6 +13,7 @@ import {Move} from '../move';
 import {Pokemon} from '../pokemon';
 import {Result} from '../result';
 import {
+  applyInverseBattleEffectiveness,
   chainMods,
   checkAirLock,
   checkDownload,
@@ -156,10 +157,13 @@ export function calculateBWXY(
   }
 
   const isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
-  const type1Effectiveness =
-    getMoveEffectiveness(gen, move, defender.types[0], isGhostRevealed, field.isGravity);
+  const type1Effectiveness = applyInverseBattleEffectiveness(
+    getMoveEffectiveness(gen, move, defender.types[0], isGhostRevealed, field.isGravity), 
+  !!field.isInverse);
   const type2Effectiveness = defender.types[1]
-    ? getMoveEffectiveness(gen, move, defender.types[1], isGhostRevealed, field.isGravity)
+    ? applyInverseBattleEffectiveness(
+      getMoveEffectiveness(gen, move, defender.types[1], isGhostRevealed, field.isGravity), 
+    !!field.isInverse)
     : 1;
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
 
