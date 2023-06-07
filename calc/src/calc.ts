@@ -32,9 +32,9 @@ export function calculate(
 ) {
   return MECHANICS[gen.num](
     gen,
-    attacker.clone(),
-    defender.clone(),
-    move.clone(),
-    field ? field.clone() : new Field()
+    attacker,
+    defender,
+    move,
+    field ? field : new Field()
   ) as Result;
 }
