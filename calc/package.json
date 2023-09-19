@@ -1,6 +1,6 @@
 {
   "name": "@asanrom/poke-calc",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "unpkg": "dist/production.min.js",
