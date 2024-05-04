@@ -103,7 +103,15 @@ export function calculateADV(
     field.defenderSide.isForesight
   ), !!field.isInverse);
   const type2Effectiveness = secondDefenderType
-    ? applyInverseBattleEffectiveness(getMoveEffectiveness(gen, move, secondDefenderType, field.defenderSide.isForesight), !!field.isInverse)
+    ? applyInverseBattleEffectiveness(
+      getMoveEffectiveness(
+        gen,
+        move,
+        secondDefenderType,
+        field.defenderSide.isForesight
+      ),
+      !!field.isInverse
+    )
     : 1;
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
 
@@ -116,11 +124,11 @@ export function calculateADV(
   }
 
   if ((defender.hasAbility('Flash Fire') && move.hasType('Fire')) ||
-      (defender.hasAbility('Levitate') && move.hasType('Ground')) ||
-      (defender.hasAbility('Volt Absorb') && move.hasType('Electric')) ||
-      (defender.hasAbility('Water Absorb') && move.hasType('Water')) ||
-      (defender.hasAbility('Wonder Guard') && !move.hasType('???') && typeEffectiveness <= 1) ||
-      (defender.hasAbility('Soundproof') && move.flags.sound)
+    (defender.hasAbility('Levitate') && move.hasType('Ground')) ||
+    (defender.hasAbility('Volt Absorb') && move.hasType('Electric')) ||
+    (defender.hasAbility('Water Absorb') && move.hasType('Water')) ||
+    (defender.hasAbility('Wonder Guard') && !move.hasType('???') && typeEffectiveness <= 1) ||
+    (defender.hasAbility('Soundproof') && move.flags.sound)
   ) {
     desc.defenderAbility = defender.ability;
     return result;
@@ -252,9 +260,9 @@ export function calculateBPModsADV(
 ) {
   if (attacker.curHP() <= attacker.maxHP() / 3 &&
     ((attacker.hasAbility('Overgrow') && move.hasType('Grass')) ||
-     (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
-     (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
-     (attacker.hasAbility('Swarm') && move.hasType('Bug')))
+      (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
+      (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
+      (attacker.hasAbility('Swarm') && move.hasType('Bug')))
   ) {
     basePower = Math.floor(basePower * 1.5);
     desc.attackerAbility = attacker.ability;
@@ -399,7 +407,7 @@ function calculateFinalModsADV(
   }
 
   if ((field.hasWeather('Sun') && move.hasType('Fire')) ||
-      (field.hasWeather('Rain') && move.hasType('Water'))) {
+    (field.hasWeather('Rain') && move.hasType('Water'))) {
     baseDamage = Math.floor(baseDamage * 1.5);
     desc.weather = field.weather;
   } else if (

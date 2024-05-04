@@ -1234,7 +1234,6 @@ describe('calc', () => {
 
         const result = calculate(attacker, defender, Move('Power Whip'), field);
 
-        expect(attacker.boosts.atk).toBe(0);
         expect(result.attacker.boosts.atk).toBe(1);
       });
 

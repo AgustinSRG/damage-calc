@@ -126,10 +126,28 @@ export function calculateDPP(
     }
   }
 
-  let type1Effectiveness =
-  applyInverseBattleEffectiveness(getMoveEffectiveness(gen, move, firstDefenderType, isGhostRevealed, field.isGravity), !!field.isInverse);
+  let type1Effectiveness = applyInverseBattleEffectiveness(
+    getMoveEffectiveness(
+      gen,
+      move,
+      firstDefenderType,
+      isGhostRevealed,
+      field.isGravity
+    ),
+    !!field.isInverse,
+  );
+
   let type2Effectiveness = secondDefenderType
-    ? applyInverseBattleEffectiveness(getMoveEffectiveness(gen, move, secondDefenderType, isGhostRevealed, field.isGravity), !!field.isInverse)
+    ? applyInverseBattleEffectiveness(
+      getMoveEffectiveness(
+        gen,
+        move,
+        secondDefenderType,
+        isGhostRevealed,
+        field.isGravity
+      ),
+      !!field.isInverse
+    )
     : 1;
 
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
@@ -151,12 +169,12 @@ export function calculateDPP(
 
   const ignoresWonderGuard = move.hasType('???') || move.named('Fire Fang');
   if ((!ignoresWonderGuard && defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
-      (move.hasType('Fire') && defender.hasAbility('Flash Fire')) ||
-      (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Water Absorb')) ||
-      (move.hasType('Electric') && defender.hasAbility('Motor Drive', 'Volt Absorb')) ||
-      (move.hasType('Ground') && !field.isGravity &&
-        !defender.hasItem('Iron Ball') && defender.hasAbility('Levitate')) ||
-      (move.flags.sound && defender.hasAbility('Soundproof'))
+    (move.hasType('Fire') && defender.hasAbility('Flash Fire')) ||
+    (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Water Absorb')) ||
+    (move.hasType('Electric') && defender.hasAbility('Motor Drive', 'Volt Absorb')) ||
+    (move.hasType('Ground') && !field.isGravity &&
+      !defender.hasItem('Iron Ball') && defender.hasAbility('Levitate')) ||
+    (move.flags.sound && defender.hasAbility('Soundproof'))
   ) {
     desc.defenderAbility = defender.ability;
     return result;
@@ -414,26 +432,26 @@ export function calculateBPModsDPP(
 
   const isPhysical = move.category === 'Physical';
   if ((attacker.hasItem('Muscle Band') && isPhysical) ||
-      (attacker.hasItem('Wise Glasses') && !isPhysical)) {
+    (attacker.hasItem('Wise Glasses') && !isPhysical)) {
     basePower = Math.floor(basePower * 1.1);
     desc.attackerItem = attacker.item;
   } else if (move.hasType(getItemBoostType(attacker.item)) ||
     (attacker.hasItem('Adamant Orb') &&
-     attacker.named('Dialga') &&
-     move.hasType('Steel', 'Dragon')) ||
+      attacker.named('Dialga') &&
+      move.hasType('Steel', 'Dragon')) ||
     (attacker.hasItem('Lustrous Orb') &&
-     attacker.named('Palkia') &&
-     move.hasType('Water', 'Dragon')) ||
+      attacker.named('Palkia') &&
+      move.hasType('Water', 'Dragon')) ||
     (attacker.hasItem('Griseous Orb') &&
-     attacker.named('Giratina-Origin') &&
-     move.hasType('Ghost', 'Dragon'))
+      attacker.named('Giratina-Origin') &&
+      move.hasType('Ghost', 'Dragon'))
   ) {
     basePower = Math.floor(basePower * 1.2);
     desc.attackerItem = attacker.item;
   }
 
   if ((attacker.hasAbility('Reckless') && (move.recoil || move.hasCrashDamage)) ||
-      (attacker.hasAbility('Iron Fist') && move.flags.punch)) {
+    (attacker.hasAbility('Iron Fist') && move.flags.punch)) {
     basePower = Math.floor(basePower * 1.2);
     desc.attackerAbility = attacker.ability;
   } else if ((attacker.curHP() <= attacker.maxHP() / 3 &&
@@ -441,14 +459,14 @@ export function calculateBPModsDPP(
       (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
       (attacker.hasAbility('Torrent') && move.hasType('Water')) ||
       (attacker.hasAbility('Swarm') && move.hasType('Bug')))) ||
-      (attacker.hasAbility('Technician') && basePower <= 60)
+    (attacker.hasAbility('Technician') && basePower <= 60)
   ) {
     basePower = Math.floor(basePower * 1.5);
     desc.attackerAbility = attacker.ability;
   }
 
   if ((defender.hasAbility('Heatproof') && move.hasType('Fire')) ||
-      (defender.hasAbility('Thick Fat') && (move.hasType('Fire', 'Ice')))) {
+    (defender.hasAbility('Thick Fat') && (move.hasType('Fire', 'Ice')))) {
     basePower = Math.floor(basePower * 0.5);
     desc.defenderAbility = defender.ability;
   } else if (defender.hasAbility('Dry Skin') && move.hasType('Fire')) {
@@ -503,7 +521,7 @@ export function calculateAttackDPP(
   } else if (
     (isPhysical &&
       (attacker.hasAbility('Hustle') || (attacker.hasAbility('Guts') && attacker.status)) ||
-    (!isPhysical && attacker.abilityOn && attacker.hasAbility('Plus', 'Minus')))
+      (!isPhysical && attacker.abilityOn && attacker.hasAbility('Plus', 'Minus')))
   ) {
     attack = Math.floor(attack * 1.5);
     desc.attackerAbility = attacker.ability;
@@ -513,7 +531,7 @@ export function calculateAttackDPP(
   }
 
   if ((isPhysical ? attacker.hasItem('Choice Band') : attacker.hasItem('Choice Specs')) ||
-      (!isPhysical && attacker.hasItem('Soul Dew') && attacker.named('Latios', 'Latias'))) {
+    (!isPhysical && attacker.hasItem('Soul Dew') && attacker.named('Latios', 'Latias'))) {
     attack = Math.floor(attack * 1.5);
     desc.attackerItem = attacker.item;
   } else if (
@@ -616,12 +634,12 @@ function calculateFinalModsDPP(
   }
 
   if (field.gameType !== 'Singles' &&
-      ['allAdjacent', 'allAdjacentFoes'].includes(move.target)) {
+    ['allAdjacent', 'allAdjacentFoes'].includes(move.target)) {
     baseDamage = Math.floor((baseDamage * 3) / 4);
   }
 
   if ((field.hasWeather('Sun') && move.hasType('Fire')) ||
-      (field.hasWeather('Rain') && move.hasType('Water'))) {
+    (field.hasWeather('Rain') && move.hasType('Water'))) {
     baseDamage = Math.floor(baseDamage * 1.5);
     desc.weather = field.weather;
   } else if (

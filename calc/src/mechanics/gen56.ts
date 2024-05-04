@@ -164,12 +164,14 @@ export function calculateBWXY(
 
   const isGhostRevealed = attacker.hasAbility('Scrappy') || field.defenderSide.isForesight;
   const type1Effectiveness = applyInverseBattleEffectiveness(
-    getMoveEffectiveness(gen, move, defender.types[0], isGhostRevealed, field.isGravity), 
-  !!field.isInverse);
+    getMoveEffectiveness(gen, move, defender.types[0], isGhostRevealed, field.isGravity),
+    !!field.isInverse
+  );
   const type2Effectiveness = defender.types[1]
     ? applyInverseBattleEffectiveness(
-      getMoveEffectiveness(gen, move, defender.types[1], isGhostRevealed, field.isGravity), 
-    !!field.isInverse)
+      getMoveEffectiveness(gen, move, defender.types[1], isGhostRevealed, field.isGravity),
+      !!field.isInverse
+    )
     : 1;
   let typeEffectiveness = type1Effectiveness * type2Effectiveness;
 
